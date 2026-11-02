@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: opkors-test
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/ads?status
+    envVars:
+      - key: DATABASE_URL
+        sync: false

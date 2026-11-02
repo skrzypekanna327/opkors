@@ -1,0 +1,29 @@
+OPKORS — KOPIA TESTOWA NA RENDER + NEON
+
+To jest kopia istniejącego projektu, nie nowa strona. Zachowuje index.html,
+preview.js, logikę ogłoszeń, sesji i symulatora zakupów. Zmieniono tylko
+adapter bazy danych i dodano mały serwer zgodny z hostingiem Node.
+
+WAŻNE
+- Ten pakiet jest przeznaczony wyłącznie do osobnego środowiska TESTOWEGO.
+- Nie zawiera danych ani numerów telefonów z obecnej strony.
+- Symulator płatności nadal jest symulatorem. Nie pobiera pieniędzy.
+- Nie podłączaj bazy produkcyjnej. Użyj nowej, pustej bazy Neon.
+- Nie publikuj tej kopii jako produkcyjnego OPKORS bez audytu bezpieczeństwa,
+  prawdziwych płatności, moderacji i ochrony danych.
+
+KONFIGURACJA
+1. Utwórz nową bazę PostgreSQL w Neon (bezpłatny plan).
+2. W Neon otwórz SQL Editor i wklej cały plik schema.sql, a następnie uruchom.
+3. Utwórz usługę Web Service na Render, wybierając to repozytorium.
+4. Build command: npm install
+   Start command: npm start
+   Plan: Free
+5. Dodaj zmienną środowiskową DATABASE_URL — wklej connection string z Neon.
+6. Po wdrożeniu otwórz adres Render. Pierwsze uruchomienie może chwilę potrwać.
+
+Render może usypiać darmową usługę po okresie bezczynności. Przy pierwszym
+wejściu po uśpieniu strona może ładować się dłużej.
+
+Ten pakiet nie został jeszcze wdrożony ani przetestowany z prawdziwą bazą Neon.
+Wymaga utworzenia konta/usługi przez właścicielkę i wklejenia DATABASE_URL.
