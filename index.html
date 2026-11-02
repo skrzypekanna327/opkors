@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OPKORS – znajdź usługę lub klienta</title>
+<style>
+:root{--navy:#17324d;--blue:#1685a9;--pale:#eaf5f8;--ink:#203040;--muted:#657586;--line:#dce5eb;--gold:#f0b84b}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background:#f6f9fb}
+header{background:white;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+.wrap{max-width:1120px;margin:auto;padding:0 22px}
+.nav{height:76px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.logo{font-size:30px;font-weight:900;letter-spacing:1px;color:var(--blue)}.logo span{display:block;font-size:10px;letter-spacing:2px;color:var(--muted);font-weight:700;margin-top:1px}
+button{border:0;border-radius:10px;padding:12px 17px;font-weight:700;cursor:pointer;font-size:14px}
+.primary{background:var(--blue);color:white}.outline{background:white;border:1px solid var(--line);color:var(--navy)}
+.hero{background:linear-gradient(120deg,#e9f5f8,#f7fbfc);padding:54px 0 42px}
+h1{font-size:clamp(30px,5vw,46px);line-height:1.08;color:var(--navy);margin:0 0 13px}
+.lead{font-size:18px;color:var(--muted);margin:0 0 26px}
+.search{display:grid;grid-template-columns:1.4fr 1fr auto;gap:10px;background:white;padding:10px;border-radius:15px;box-shadow:0 8px 30px #17324d12;max-width:850px}
+input,select,textarea{font:inherit;border:1px solid var(--line);border-radius:9px;padding:13px;width:100%;background:white;color:var(--ink)}
+.section{padding:34px 0}.section h2{font-size:25px;color:var(--navy);margin:0 0 18px}
+.categories{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+.cat{background:white;border:1px solid var(--line);border-radius:15px;padding:21px;cursor:pointer;text-align:left}
+.cat .ico{font-size:30px}.cat strong{display:block;font-size:18px;margin:10px 0 5px}.cat small{color:var(--muted)}
+.listings{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+.ad{background:white;border:1px solid var(--line);border-radius:15px;padding:19px;display:flex;flex-direction:column;gap:9px}
+.tag{display:inline-block;background:#fff4d9;color:#805b13;border-radius:30px;padding:5px 9px;font-size:11px;font-weight:800;width:max-content}
+.ad h3{margin:0;color:var(--navy);font-size:18px}.meta{font-size:13px;color:var(--muted)}.desc{font-size:14px;line-height:1.5;min-height:42px}
+.adfoot{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto}.adfoot button{flex:1}
+.owner-tools{background:var(--pale);border:1px solid var(--line);border-radius:10px;padding:12px;display:grid;gap:10px}.owner-tools strong{font-size:13px;color:var(--navy)}.feature-options{display:grid;gap:8px}.feature-options[hidden]{display:none}.owner-help{font-size:13px;line-height:1.5;color:var(--muted);margin:0 0 18px}
+.note{background:#fff;border:1px dashed #c6d6df;border-radius:12px;padding:15px;color:var(--muted);font-size:13px;line-height:1.5;margin-top:20px}
+footer{background:var(--navy);color:#dce8ef;padding:28px 0;margin-top:24px}.foot{display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap}
+.modal{display:none;position:fixed;inset:0;background:#10253899;z-index:10;padding:20px;overflow:auto}.dialog{max-width:560px;margin:5vh auto;background:white;border-radius:16px;padding:24px}.dialog h2{margin-top:0;color:var(--navy)}.formgrid{display:grid;gap:12px}.close{float:right;background:#eef3f6}
+@media(max-width:700px){.search{grid-template-columns:1fr}.categories,.listings{grid-template-columns:1fr}.nav{height:auto;padding:14px 0}.nav .outline{display:none}.hero{padding:38px 0}.wrap{padding:0 16px}}
+</style>
+</head>
+<body>
+<header><div class="wrap nav"><div class="logo">OPKORS<span>OPIEKA • KOREPETYCJE • SPRZĄTANIE</span></div><div><button class="outline" onclick="alert('Logowanie i konta użytkowników będą dodane w wersji z bazą danych.')">Zaloguj się</button> <button class="primary" onclick="openForm()">+ Dodaj ogłoszenie</button></div></div></header>
+<main>
+<section class="hero"><div class="wrap"><h1>Znajdź usługę.<br>Znajdź klienta.</h1><p class="lead">Sprzątanie, korepetycje i opieka – ogłoszenia z całej Polski.</p>
+<div class="search"><input id="q" placeholder="Czego szukasz? np. sprzątanie, matematyka"><input id="city" placeholder="Miejscowość"><button class="primary" onclick="searchAds()">Szukaj ogłoszeń</button></div></div></section>
+<section class="section"><div class="wrap"><h2>Wybierz kategorię</h2><div class="categories">
+<button class="cat" onclick="filterCat('Sprzątanie')"><span class="ico">🧹</span><strong>Sprzątanie</strong><small>Mieszkania, domy, biura</small></button>
+<button class="cat" onclick="filterCat('Korepetycje')"><span class="ico">📚</span><strong>Korepetycje</strong><small>Przedmioty szkolne i języki</small></button>
+<button class="cat" onclick="filterCat('Opieka')"><span class="ico">🤝</span><strong>Opieka</strong><small>Dzieci, seniorzy, pomoc domowa</small></button>
+</div></div></section>
+<section class="section" style="padding-top:8px"><div class="wrap"><h2 id="listingTitle">Przykładowe ogłoszenia</h2><div class="listings" id="ads">
+<article class="ad" data-cat="Sprzątanie" data-city="Katowice"><span class="tag">★ PRZYKŁADOWE WYRÓŻNIENIE</span><h3>Sprzątanie mieszkań i domów</h3><div class="meta">Sprzątanie • Katowice</div><p class="desc">Dokładne sprzątanie mieszkań. Możliwość ustalenia stałych terminów.</p><div class="adfoot"><button class="outline" onclick="reveal(this,'555 123 456')">Odsłoń telefon</button><button class="outline" onclick="alert('Przykład: płatne wyróżnienie będzie dostępne po podłączeniu płatności.')">Wyróżnij</button></div></article>
+<article class="ad" data-cat="Korepetycje" data-city="Łódź"><h3>Korepetycje z matematyki</h3><div class="meta">Korepetycje • Łódź</div><p class="desc">Pomoc uczniom szkoły podstawowej i przygotowanie do sprawdzianów.</p><div class="adfoot"><button class="outline" onclick="reveal(this,'555 234 567')">Odsłoń telefon</button><button class="outline" onclick="alert('Przykład: płatne wyróżnienie będzie dostępne po podłączeniu płatności.')">Wyróżnij</button></div></article>
+<article class="ad" data-cat="Opieka" data-city="Warszawa"><h3>Opieka nad seniorem</h3><div class="meta">Opieka • Warszawa</div><p class="desc">Pomoc w codziennych czynnościach, zakupy i towarzyszenie.</p><div class="adfoot"><button class="outline" onclick="reveal(this,'555 345 678')">Odsłoń telefon</button><button class="outline" onclick="alert('Przykład: płatne wyróżnienie będzie dostępne po podłączeniu płatności.')">Wyróżnij</button></div></article>
+</div><div class="note"><strong>Ważne:</strong> To klikalny projekt demonstracyjny wyglądu OPKORS. Przykładowe ogłoszenia i numery są fikcyjne. Rejestracja, prawdziwe publikowanie ogłoszeń, płatności i bezpieczne odsłanianie numerów wymagają uruchomienia serwera, bazy danych i integracji płatniczej.</div></div></section>
+</main>
+<footer><div class="wrap foot"><strong>OPKORS</strong><span>Opieka • Korepetycje • Sprzątanie</span><span>Portal ogłoszeniowy – cała Polska</span></div></footer>
+<div class="modal" id="modal"><div class="dialog"><button class="close" onclick="closeForm()">Zamknij ✕</button><h2>Dodaj ogłoszenie</h2><p class="meta">Formularz demonstracyjny – dane nie są wysyłane do internetu.</p><div class="formgrid"><input id="title" placeholder="Tytuł ogłoszenia"><select id="category"><option>Sprzątanie</option><option>Korepetycje</option><option>Opieka</option></select><input id="town" placeholder="Miejscowość"><textarea id="description" rows="3" placeholder="Opisz usługę"></textarea><button class="primary" onclick="demoAdd()">Pokaż podgląd ogłoszenia</button></div></div></div>
+<script src="/preview.js" defer></script>
+<script>
+function openForm(){document.getElementById('modal').style.display='block'}function closeForm(){document.getElementById('modal').style.display='none'}
+function reveal(btn,num){btn.textContent=num;btn.disabled=true}
+function filterCat(cat){document.getElementById('q').value=cat;searchAds()}
+function searchAds(){let q=document.getElementById('q').value.toLowerCase(),c=document.getElementById('city').value.toLowerCase(),n=0;document.querySelectorAll('.ad').forEach(a=>{let ok=(!q||(a.innerText.toLowerCase().includes(q)||a.dataset.cat.toLowerCase().includes(q)))&&(!c||a.dataset.city.toLowerCase().includes(c));a.style.display=ok?'flex':'none';if(ok)n++});document.getElementById('listingTitle').textContent='Wyniki wyszukiwania ('+n+')'}
+function demoAdd(){let t=document.getElementById('title').value||'Nowe ogłoszenie',cat=document.getElementById('category').value,town=document.getElementById('town').value||'Polska',d=document.getElementById('description').value||'Opis usługi';let a=document.createElement('article');a.className='ad';a.dataset.cat=cat;a.dataset.city=town;a.innerHTML='<h3></h3><div class="meta"></div><p class="desc"></p><div class="adfoot"><button class="outline" type="button">Podgląd kontaktu</button></div>';a.querySelector('button').addEventListener('click',()=>alert('To tylko podgląd.'));a.querySelector('h3').textContent=t;a.querySelector('.meta').textContent=cat+' • '+town;a.querySelector('.desc').textContent=d;document.getElementById('ads').prepend(a);closeForm();alert('Dodano ogłoszenie wyłącznie do lokalnego podglądu tej strony.')}
+</script>
+</body></html>
